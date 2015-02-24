@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {head}
+    </head>
+    <body>
+        <h1>404 error</h1>
+        <h2>Stránka neexistuje</h2>
+    </body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {head}
+    </head>
+    <body>
+        {header}
+        <div class="content">
+            <button id="logout">LOGOUT</button>
+            <div id="form_wrapper" class="form_wrapper">
+                <form class="login active" id="loginForm">
+                    <h3>Prihlásenie</h3>
+                    <div id="result" class=""></div>
+                    <div>
+                        <label>Meno:</label>
+                        <input type="text" name="name"/>
+                    </div>
+                    <div>
+                        <label>Heslo:</label>
+                        <input type="password" name="password"/>
+                        <label style="margin: -10px 10px"><a href="forgot_password.html" rel="forgot_password" class="forgot linkform">Zabudli ste heslo?</a><div class="clearfix"></div></label>
+                    </div>
+                    <div class="bottom">
+                        <div class="remember"><input type="checkbox" name="long"/><span>Zapamätať prihlásenie</span></div>
+                        <button type="submit">Prihlásiť sa</button>
+                        <div class="clearfix"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {footer}
+	</body>
+</html>
