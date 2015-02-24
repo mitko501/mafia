@@ -5,8 +5,8 @@ class Registry {
     private $hasControllersStored = false;
     private $hasSettingsStored = false;
 	private $settings;
-	private $controllers=array();
-    private $privileges= array();
+	private $controllers = array();
+    private $privileges = array();
 	public $firephp;
 	
 	public function __construct(){
