@@ -6,18 +6,14 @@ require_once(BASE_DIR . 'libs/FirePHPCore/fb.php');
 require_once(BASE_DIR . 'registry/MySQL.class.php');
 require_once(BASE_DIR . 'registry/registry.php');
 
-$Registry= new Registry();
-$Registry->setDebugging(true);//DEBUG
-$Registry->firephp->log('start');
-$Registry->createAndStoreObject('MySQL','db');
-$Registry->GetObject('db')->newConnection('');
-$Registry->createAndStoreObject('session','session');
-$Registry->createAndStoreObject('user','usr');
-$Registry->createAndStoreObject('url','url');
+$registry= new Registry();
+$registry->setDebugging(true);//DEBUG
+$registry->firephp->log('index.php: start logging');
+$registry->getObject('MySQL')->newConnection('');
 
-$controller=$Registry->GetObject('url')->GetUrlBit(0);
+$controller = $registry->getObject('url')->getUrlBit(0);
 include(BASE_DIR . 'controllers/' . $controller . '/controller.php' );
 $controller = $controller.'Controller';
-new $controller($Registry);
-$Registry->firephp->log('stop');
+new $controller($registry);
+$registry->firephp->log('End of PHP.');
 ?>

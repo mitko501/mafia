@@ -1,7 +1,7 @@
 <?php
 class Registry {
 	
-	private $objects;
+	private $objects = array();
     private $hasControllersStored = false;
     private $hasSettingsStored = false;
 	private $settings;
@@ -32,7 +32,7 @@ class Registry {
 	public function storeControllers()
     {
         if (!$this->hasControllersStored) {
-            $this->GetObject('db')->ExecuteQuery('SELECT * FROM controllers');
+            $this->GetObject('MySQL')->ExecuteQuery('SELECT * FROM controllers');
             while ($setting = $this->GetObject('db')->GetRows()) {
                 $this->controllers[] = $setting['value'];
                 $this->privileges[$setting['value']] = $setting['privileges'];
@@ -55,7 +55,18 @@ class Registry {
 	}
 	
 	public function getObject($key){
-		return $this->objects[$key];
+        if(array_key_exists($key,$this->objects)) {
+            return $this->objects[$key];
+        }
+
+        if(file_exists(BASE_DIR . "registry/" . $key . ".class.php")){
+            require_once($key . '.class.php');
+            $this->objects[$key] = new $key($this);
+            return $this->objects[$key];
+        }else{
+            trigger_error("Objekt neexistuje!");
+            exit();
+        }
 	}
 	
 	public function buildURL($urlBits, $queryString='') {
