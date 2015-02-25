@@ -7,18 +7,19 @@
  * Trieda url riesi parametre URL, kontroluje hlavne validitu, a takisto opravnenia pre jednotlive controlleri
  */
 class url{
-	private $urlBits=array();
+	private $urlBits = array();
 	private $registry;
-    private $secondBit=array("login" => array("/^logout$/")); //povolene url pre druhy parameter ako pattern pre preg_match napr.:"main" => array("/^url$/","/^[0-9]+$/" povoluje pre controller main http://..../main/url alebo /main/{vsetky cisla}
+    private $secondBit = array("login" => array("/^logout$/")); //povolene url pre druhy parameter ako pattern pre preg_match napr.:"main" => array("/^url$/","/^[0-9]+$/" povoluje pre controller main http://..../main/url alebo /main/{vsetky cisla}
 	
 	public function __construct(Registry $registry){
-		$this->registry= $registry;
+		$this->registry = $registry;
         $this->registry->storeControllers(); //potiahnut zoznam controllerov z DB
-        $firstPage= ($this->registry->getPrivileges(MAIN_CONTROLLER) <= $this->registry->getObject('usr')->getUserInfo('privileges')) ? MAIN_CONTROLLER : LOGIN_CONTROLLER;
+        $firstPage = ($this->registry->getPrivileges(MAIN_CONTROLLER) <= $this->registry->getObject('usr')->getUserInfo('privileges')) ? MAIN_CONTROLLER : LOGIN_CONTROLLER;
 		if(isset($_GET['page'])){
-			$urldata=addslashes($_GET['page']); //pridat spatne lomitka
-			if(!empty($urldata)){
-				$data=explode('/',$urldata);
+			$urlData = (preg_match("^([a-z]*|[A-Z]*|[0-9]*|\/)*$", $_GET['page'])) ? $_GET['page'] : $firstPage; //pridat spatne lomitka
+            var_dump($urlData)
+			if(!empty($urlData)){
+				$data=explode('/',$urlData);
 				if($this->registry->isController($data[0])){ //skontrolovat validitu
                     if($this->registry->getObject('usr')->getUserInfo('privileges') >= $this->registry->getPrivileges($data[0])){ //skontrolovat orpavnenia
 					    $this->urlBits[0]= $data[0];
