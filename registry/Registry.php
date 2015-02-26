@@ -8,7 +8,7 @@ class Registry {
     private $controllers = array();
     private $privileges = array();
     private $firePHP;
-    
+
     /**
      * @return FirePHP
      */
