@@ -37,6 +37,8 @@ class Url{
         } else {
             $this->controller = MAIN_CONTROLLER;
         }
+
+        $this->hasControllerParsed = true;
     }
 
     private function parseArguments() {
@@ -51,6 +53,8 @@ class Url{
                 break;
             }
         }
+
+        $this->hasArgumentsParsed = true;
     }
 
     public function getController() {
