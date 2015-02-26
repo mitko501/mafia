@@ -9,13 +9,13 @@
 
 class user{
 
-    private $userInfo=array("privileges" => 0, "online" => false);
+    private $userInfo = array("privileges" => 0, "online" => false);
 	private $registry;
 	
 	public function __construct(Registry $registry){
-		$this->registry= $registry;
+		$this->registry = $registry;
         require_once(BASE_DIR . 'models/login.php');
-        $login= new login($this->registry);
+        $login = new login($this->registry);
         if($login->loginCheck()==true){
             $this->loginSuccessful();
         }
@@ -32,6 +32,10 @@ class user{
         }else{
             return false;
         }
+    }
+
+    public function getUserPrivileges(){
+        return $this->getUserInfo("privileges");
     }
 
     public function setUserInfo($index,$value){

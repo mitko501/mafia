@@ -7,10 +7,20 @@ class Registry {
 	private $settings;
 	private $controllers = array();
     private $privileges = array();
-	public $firephp;
+	private $firePHP;
+
+    /**
+     * @return FirePHP
+     */
+    public function getFirePHP()
+    {
+        return $this->firePHP;
+    }
 	
 	public function __construct(){
-		$this->firephp = FirePHP::getInstance(true);
+        require_once(BASE_DIR . 'libs/FirePHPCore/FirePHP.class.php');
+        require_once(BASE_DIR . 'libs/FirePHPCore/fb.php');
+		$this->firePHP = FirePHP::getInstance(true);
 	}
 	
 	public function createAndStoreObject($object, $key){
@@ -29,11 +39,11 @@ class Registry {
 		return $this->settings[$key];
 	}
 	
-	public function storeControllers()
+	private function storeControllers()
     {
         if (!$this->hasControllersStored) {
-            $this->GetObject('MySQL')->ExecuteQuery('SELECT * FROM controllers');
-            while ($setting = $this->GetObject('db')->GetRows()) {
+            $this->GetObject('MySQL')->executeQuery('SELECT * FROM controllers');
+            while ($setting = $this->getObject('MySQL')->getRows()) {
                 $this->controllers[] = $setting['value'];
                 $this->privileges[$setting['value']] = $setting['privileges'];
             }
@@ -42,10 +52,14 @@ class Registry {
 	}
 
     public function getPrivileges($controller){
+        if(!$this->hasControllersStored)
+            $this->storeControllers();
         return $this->privileges[$controller];
     }
 	
 	public function isController($value){
+        if(!$this->hasControllersStored)
+            $this->storeControllers();
 		return in_array($value, $this->controllers) && $value != "";
 
 	}
@@ -87,7 +101,7 @@ class Registry {
     }
 	
 	public function setDebugging($value) {
-		$this->firephp->setEnabled($value);
+		$this->firePHP->setEnabled($value);
 	}
 }
 ?>

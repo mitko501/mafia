@@ -13,7 +13,7 @@ class errorController{
 
     public function __construct(Registry $registry){
         $this->registry= $registry;
-        $this->registry->firephp->log("404 error");
+        $this->registry->getFirePHP()->log("404 error");
         if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest')){
             //Ajaxove poziadavky
         }else{

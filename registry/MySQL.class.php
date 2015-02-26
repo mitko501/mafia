@@ -21,17 +21,17 @@ class MySQL{
         $dbname = (empty($dbname)) ? $config['DB'] : $dbname;
 
         try {
-            $this->connections[] = NEW PDO("mysql:host=" . $config['host'] . ";dbname=" . $dbname . ";charset=utf8", $config['name'], $config['pass'],array(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION));
+            $this->connections[] = new PDO("mysql:host=" . $config['host'] . ";dbname=" . $dbname . ";charset=utf8", $config['name'], $config['pass'],array(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION));
         }catch(PDOException $e) {
             trigger_error('Spojenie zlyhalo.');
-            $this->registry->firephp->log('[MySQL::newConnection]: Connection failed: ' . $e->getMessage());
+            $this->registry->getFirePHP()->log('[MySQL::newConnection]: Connection failed: ' . $e->getMessage());
             exit();
         }
 
         $this->before = $this->activeConnection;
         $this->activeConnection = count($this->connections) - 1;
 
-        $this->registry->firephp->log('[MySQL::newConnection]: Connection success: dbname="' . $dbname . '"');
+        $this->registry->getFirePHP()->log('[MySQL::newConnection]: Connection success: dbname="' . $dbname . '"');
     }
 
     public function getPDO(){
@@ -55,17 +55,17 @@ class MySQL{
 
     public function executeQuery($sql){
         //echo $sql;
-        $this->registry->firephp->log("[MySQL::executeQuery]: trying to execute query: " . $sql); //DEBUG
+        $this->registry->getFirePHP()->log("[MySQL::executeQuery]: trying to execute query: " . $sql); //DEBUG
 
         try{
             $this->last[$this->activeConnection] = $this->connections[$this->activeConnection]->prepare($sql);
             $this->last[$this->activeConnection]->execute();
         }catch(PDOException $e) {
             trigger_error('Chyba pri pokuse o vykonanie dotazu');
-            $this->registry->firephp->log('[MySQL::executeQuery]: query error: ' . $e->getMessage());
+            $this->registry->getFirePHP()->log('[MySQL::executeQuery]: query error: ' . $e->getMessage());
         }
 
-        $this->registry->firephp->log("[MySQL::executeQuery]: query executed and returned: " . $this->getNumRows()); //DEBUG
+        $this->registry->getFirePHP()->log("[MySQL::executeQuery]: query executed and returned: " . $this->getNumRows()); //DEBUG
     }
 
     /**
@@ -99,10 +99,10 @@ class MySQL{
             $this->last[$this->activeConnection]->execute();
         }catch(PDOException $e) {
             trigger_error('Chyba pri pokuse o vykonanie dotazu');
-            $this->registry->firephp->log('[MySQL::insert]: query error: ' . $e->getMessage());
+            $this->registry->getFirePHP()->log('[MySQL::insert]: query error: ' . $e->getMessage());
         }
 
-        $this->registry->firephp->log('[MySQL::insert]: query executed: ');
+        $this->registry->getFirePHP()->log('[MySQL::insert]: query executed: ');
     }
 
     public function update($table, $data, $where){
@@ -127,7 +127,7 @@ class MySQL{
             $this->last[$this->activeConnection]->execute();
         }catch(PDOException $e) {
             trigger_error('Chyba pri pokuse o vykonanie dotazu');
-            $this->registry->firephp->log('[mysql::update]: Query error: ' . $e->getMessage());
+            $this->registry->getFirePHP()->log('[mysql::update]: Query error: ' . $e->getMessage());
         }
     }
 

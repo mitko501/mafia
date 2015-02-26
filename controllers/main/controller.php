@@ -13,7 +13,7 @@ class mainController{
 
 	public function __construct(Registry $registry){
 		$this->registry= $registry;
-        $this->registry->firephp->log("mainController");
+        $this->registry->getFirePHP()->log("mainController");
         if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest')){
             //Ajaxove poziadavky
         }else{
