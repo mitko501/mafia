@@ -28,11 +28,14 @@ class Url{
         if($this->hasControllerParsed){
             return;
         }
-
         if ($this->registry->isController($this->urlData[0])) {
             if ($this->registry->getObject('user')->getUserPrivileges() >= $this->registry->getPrivileges($this->urlData[0])) {
                 $this->controller = $this->urlData[0];
                 array_shift($this->urlData); //delete controller
+            }else{
+                $this->registry->alert("You don\'t have permission to access this site!");
+                $this->registry->redirectURL("",200);
+                $this->controller = MAIN_CONTROLLER;
             }
         } else {
             $this->controller = MAIN_CONTROLLER;

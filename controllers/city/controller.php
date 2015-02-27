@@ -1,12 +1,12 @@
 <?php
 /**
- * Main Controller v2.0
+ * City Controller v2.0
  * User: mitko
- * startDate: 24.1.2014 12:00
+ * startDate: 27.2.2015 10:00
  * endDate:
  */
 
-class mainController{
+class cityController{
 
 	private $registry;
     private $file;
@@ -30,7 +30,7 @@ class mainController{
 	}
 
     public function getTitle(){
-        return "maine";
+        return "Big city";
     }
 }
 ?>

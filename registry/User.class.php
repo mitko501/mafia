@@ -9,7 +9,7 @@
 
 class user{
 
-    private $userInfo = array("privileges" => 0, "online" => false);
+    private $userInfo = array("privileges" => 1, "online" => false);
     private $registry;
 
     public function __construct(Registry $registry){

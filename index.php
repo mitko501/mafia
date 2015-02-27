@@ -1,7 +1,7 @@
 <?php
 ob_start();
 require_once('/config/define.php');
-require_once(BASE_DIR . 'registry/registry.php');
+require_once(BASE_DIR . 'registry/Registry.php');
 
 $registry = new Registry();
 $registry->setDebugging(true);//DEBUG

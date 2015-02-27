@@ -84,7 +84,7 @@ class Registry {
         return $this->getObject('url')->buildURL($urlBits, $queryString, false);
     }
     public function alert($message){
-        echo "<script>alert('" . $message . "')</script>";
+        echo "<script type='text/javascript'>alert('" . $message . "')</script>";
     }
 
     public function redirectURL($url,$time=0) {
