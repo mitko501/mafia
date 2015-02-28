@@ -15,7 +15,10 @@ class head{
 	public function __construct(Registry $registry){
 		$this->registry= $registry;
 	}
-	
+
+    /**
+     * Vytvori hlavicku, to je <head></head>
+     */
 	public function head(){
 		$file= file_get_contents(BASE_DIR . 'view/' . THEME . '/head.txt'); //vyberieme pattern hlavicky
 		if(strpos($file,'{css}')>=0){ //zacneme s CSS

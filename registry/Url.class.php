@@ -24,6 +24,9 @@ class Url{
         }
     }
 
+    /**
+     * Parse controller from URL
+     */
     private function parseController(){
         if($this->hasControllerParsed){
             return;
@@ -44,6 +47,9 @@ class Url{
         $this->hasControllerParsed = true;
     }
 
+    /**
+     * Parse arguments from URL
+     */
     private function parseArguments() {
         if($this->hasArgumentsParsed){
             return;

@@ -4,6 +4,7 @@ class MySQL{
      * MySQL Class v 3.0
      * 13.7.2014
      * @author Michal Hajas
+     * Take care of connection with DB
      */
 
     private $connections = array(); //all connections
@@ -16,6 +17,10 @@ class MySQL{
         $this->registry = $registry;
     }
 
+    /**
+     * @param $dbname name of DB
+     * create new connection
+     */
     public function newConnection($dbname){
         require_once(BASE_DIR . 'config/config.php');
         $dbname = (empty($dbname)) ? $config['DB'] : $dbname;
@@ -34,15 +39,25 @@ class MySQL{
         $this->registry->getFirePHP()->log('[MySQL::newConnection]: Connection success: dbname="' . $dbname . '"');
     }
 
+    /**
+     * @return PDO object
+     */
     public function getPDO(){
         return $this->connections[$this->activeConnection];
     }
 
+    /**
+     * @param $index of connection
+     * set active conneciton
+     */
     public function setActiveConnection($index){
         $this->before = $this->activeConnection;
         $this->activeConnection = $index;
     }
 
+    /**
+     * @return int index of active connection
+     */
     public function getActiveConnection(){
         return $this->activeConnection;
     }
@@ -132,13 +147,19 @@ class MySQL{
     }
 
     /**
-     * Result
+     * Resulting
      */
 
+    /**
+     * @return num of returned rows
+     */
     public function getNumRows(){
         return $this->last[$this->activeConnection]->rowCount();
     }
 
+    /**
+     * tieto ostatne by mali byt jasne
+     */
     public function getRows(){
         return $this->last[$this->activeConnection]->fetch(PDO::FETCH_ASSOC);
     }
@@ -158,8 +179,13 @@ class MySQL{
         }
     }
 
+    /**
+     * destructor
+     */
     public function __deconstruct() {
-        $this->connections[$this->activeConnection] = null;
+        foreach($this->connections as $value) {
+            $value = null;
+        }
     }
 }
 ?>

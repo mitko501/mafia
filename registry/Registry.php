@@ -71,8 +71,7 @@ class Registry {
             return $this->objects[$key];
         }
         if(file_exists(BASE_DIR . "registry/" . $key . ".class.php")){
-            require_once($key . '.class.php');
-            $this->objects[$key] = new $key($this);
+            $this->createAndStoreObject($key, $key);
             return $this->objects[$key];
         }else{
             trigger_error("Objekt neexistuje!");

@@ -14,6 +14,9 @@ class header{
         $this->registry=$registry;
     }
 
+    /**
+     * Vytvori header to je vrchna cast stranky ktora sa vacsinou nemeni
+     */
     public function header(){
         $file= file_get_contents(BASE_DIR . 'view/' . THEME . '/header.txt'); //vyberieme pattern hlavicky
         //Pripadne nahradenie tagov
