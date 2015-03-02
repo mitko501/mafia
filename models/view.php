@@ -26,12 +26,12 @@ class View implements Model{
                     $tag = substr($tag, 1,-1);
 
                     $result = "";
-
-                    if(($result = str_replace("{" . $tag . "}", $this->tryToReplaceFromModels($tag) ,$file) != "")
-
+                    $result = $this->tryToReplaceFromModels($tag);
+                    if($result != ""){
+                        $file = str_replace("{" . $tag . "}", $result, $file);
+                    }
                 }
             }
-
             return $file;
         }
         return "";
