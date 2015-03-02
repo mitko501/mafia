@@ -13,7 +13,7 @@ class cityController{
 
 	public function __construct(Registry $registry){
 		$this->registry= $registry;
-        $this->registry->getFirePHP()->log("mainController::_construct");
+        $this->registry->getFirePHP()->log("cityController::_construct");
         if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest')){
             //Ajaxove poziadavky
         }else{
@@ -33,4 +33,3 @@ class cityController{
         return "Big city";
     }
 }
-?>

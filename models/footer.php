@@ -6,7 +6,7 @@
  * endDate:
  */
 
-class footer{
+class footer implements Model{
 
     private $registry;
 
@@ -14,9 +14,11 @@ class footer{
         $this->registry=$Registry;
     }
 
-    public function footer(){
+    public function getContent($tagToReplace = ""){
         $file= file_get_contents(BASE_DIR . 'view/' . THEME . '/footer.txt'); //vyberieme pattern footeru
+
         //Pripadne nahradenie tagov
+
         return $file;
     }
 }

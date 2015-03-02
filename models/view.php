@@ -7,13 +7,34 @@
  * trieda view zostavuje zakladnu kostru stranky, ktora sa nachadza v textovych suborov, kazdy controller ma vlastnu kostru
  */
 
-class view{
+class View implements Model{
 
     private $registry;
-    private $replaceFromModels= array("head","header","footer");
 
     public function __construct(Registry $Registry){
         $this->registry=$Registry;
+    }
+
+    public function getContent($tagToReplace = ""){
+        if($tagToReplace != "") {
+            $file = $this->buildNewFile($tagToReplace);
+
+            if(preg_match_all('/^\{[a-zA-Z0-9\-]+\}', $file, $matches)){
+                var_dump($matches);
+
+                foreach($matches as $tag){
+                    $tag = substr($tag, 1,-1);
+
+                    $result = "";
+
+                    if(($result = str_replace("{" . $tag . "}", $this->tryToReplaceFromModels($tag) ,$file) != "")
+
+                }
+            }
+
+            return $file;
+        }
+        return "";
     }
 
     /**
@@ -27,18 +48,29 @@ class view{
      * chcelo by to nejako zautomatizovat, aby sa nemuselo ukladat, ktore tagy sa mozu nahradit a ktore nie
      * nejako ich vyhladavat a skusit vsetky moznosti ako ho nahradit
      */
-    public function buildNewFile($controller){
-        $file=file_get_contents(BASE_DIR . "view/" . THEME . "/" . substr(get_class($controller),0,strpos(get_class($controller),"Controller")) . ".view.txt");
+    private function buildNewFile($filemame){
+        $file = file_get_contents(BASE_DIR . "view/" . THEME . "/" . $filename . ".view.txt");
+        return $file;
+    }
 
-        foreach($this->replaceFromModels as $value) {
-            if (strpos($file, "{" . $value . "}")) {
-                require_once(BASE_DIR . 'models/' . $value . '.php');
-                $model = new $value($this->registry);
-                $file = str_replace('{' . $value . '}', $model->$value(), $file);
-            }
+    private function tryToReplaceFromModels($tag){
+        if(strpos($tag,"-")){
+            $modelFileName = strtolower(substr($tag, 0, strpos($tag, "-")));
+            $modelClassName = ucfirst($modelFileName);
+            $tagToReplace = strtolower(substr($tag, strpos($tag, "-")));
+        }else{
+            $modelFileName = strtolower($tag);
+            $modelClassName = ucfirst($modelFileName);
+            $tagToReplace = "";
         }
-        $file= str_replace("{title}",$controller->getTitle(),$file);
-        return $file;//zvysok sa nahradi v controlleri
+
+        if(file_exists(BASE_DIR . "/models/" . $modelFileName)){
+            require_once(BASE_DIR . "/models/" . $modelFileName);
+            $model = new $modelClassName();
+            return $model->getContent($tagToReplace);
+        }
+        return "";
+
     }
 }
 

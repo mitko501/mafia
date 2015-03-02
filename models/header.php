@@ -6,7 +6,7 @@
  * endDate:
  */
 
-class header{
+class Header implements Model{
 
     private $registry;
 
@@ -17,9 +17,11 @@ class header{
     /**
      * Vytvori header to je vrchna cast stranky ktora sa vacsinou nemeni
      */
-    public function header(){
-        $file= file_get_contents(BASE_DIR . 'view/' . THEME . '/header.txt'); //vyberieme pattern hlavicky
+    public function getContent($tagToReplace = ""){
+        $file = file_get_contents(BASE_DIR . 'view/' . THEME . '/header.txt'); //get pattern of header
+
         //Pripadne nahradenie tagov
+
         return $file;
     }
 }
